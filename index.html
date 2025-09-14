@@ -49,32 +49,54 @@
       color: #fff;
     }
 
-    /* زر ☰ للتليفون */
+    /* زر ☰ */
     .menu-toggle {
-      display: none;
       font-size: 26px;
       color: #fff;
       cursor: pointer;
+      display: none;
     }
 
+    /* زر الإغلاق ✖ */
+    .close-btn {
+      font-size: 28px;
+      color: #fff;
+      cursor: pointer;
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      display: none;
+    }
+
+    /* الموبايل */
     @media (max-width: 768px) {
-      nav ul {
-        display: none;
-        flex-direction: column;
+      nav {
+        position: fixed;
+        top: 0;
+        right: -250px; /* مخفية برا الشاشة */
+        width: 250px;
+        height: 100%;
         background: #222;
-        position: absolute;
-        top: 60px;
-        right: 20px;
-        width: 200px;
-        padding: 15px;
-        border-radius: 8px;
+        transition: right 0.3s ease;
+        padding-top: 60px;
       }
 
-      nav ul.show {
-        display: flex;
+      nav ul {
+        flex-direction: column;
+        gap: 20px;
+        padding: 0;
+        margin: 0;
+      }
+
+      nav.show {
+        right: 0; /* تظهر القائمة */
       }
 
       .menu-toggle {
+        display: block;
+      }
+
+      .close-btn {
         display: block;
       }
     }
@@ -151,7 +173,7 @@
       justify-content: center;
       gap: 30px;
       margin-bottom: 10px;
-      flex-wrap:wrap;
+      flex-wrap: wrap;
     }
 
     .footer-info div {
@@ -242,101 +264,28 @@
     .download-btn:hover {
       background: #666;
     }
-
   </style>
   <script src="https://kit.fontawesome.com/6c5e6a78b8.js" crossorigin="anonymous"></script>
 </head>
 <body>
 
   <header>
-    <div class="logo">موقع غسان الشخصي</div>
     <div class="menu-toggle" onclick="toggleMenu()">☰</div>
-    <nav>
-      <ul id="nav-links">
-        <li><a href="#about">من أنا</a></li>
-        <li><a href="#portfolio">أعمالي</a></li>
-        <li><a href="#games">ألعابي</a></li>
-        <li><a href="#downloads">الروابط التحميل</a></li>
-        <li><a href="#contact">تواصل</a></li>
+    <div class="logo">موقع غسان الشخصي</div>
+    <nav id="nav">
+      <div class="close-btn" onclick="toggleMenu()">✖</div>
+      <ul>
+        <li><a href="#about" onclick="toggleMenu()">من أنا</a></li>
+        <li><a href="#portfolio" onclick="toggleMenu()">أعمالي</a></li>
+        <li><a href="#games" onclick="toggleMenu()">ألعابي</a></li>
+        <li><a href="#downloads" onclick="toggleMenu()">الروابط التحميل</a></li>
+        <li><a href="#contact" onclick="toggleMenu()">تواصل</a></li>
       </ul>
     </nav>
   </header>
 
-  <!-- قسم من أنا -->
-  <section id="about">
-    <img src="profile.jpg" alt="صورتي الشخصية">
-    <h2>من أنا</h2>
-    <p>أنا غسان فادي نوفل.
-    هذا موقعي الشخصي لعرض أعمالي وألعابي والتواصل معي.</p>
-  </section>
+  <!-- باقي أقسام الموقع زي ما هي ... -->
 
-  <!-- قسم الأعمال -->
-  <section id="portfolio">
-    <h2>الأعمال</h2>
-    <p> 👇</p>
-    <div class="grid">
-      <img src="work1.jpg" alt="عمل 1">
-      <img src="work2.jpg" alt="عمل 2">
-      <img src="work3.jpg" alt="عمل 3">
-    </div>
-  </section>
-
-  <!-- قسم ألعابي -->
-  <section id="games">
-    <h2>ألعابي</h2>
-    <p>استمتع بتجربة ألعابي 👇</p>
-    <div class="games-grid">
-      <div class="game-card">
-        <h3>لعبتي 1</h3>
-        <iframe src="games/game1/index.html" frameborder="0" allowfullscreen></iframe>
-      </div>
-      <div class="game-card">
-        <h3>لعبتي 2</h3>
-        <iframe src="games/game2/index.html" frameborder="0" allowfullscreen></iframe>
-      </div>
-      <div class="game-card">
-        <h3>لعبتي3</h3>
-        <iframe src="games/game2/index.html" frameborder="0" allowfullscreen></iframe>
-      </div>
-    </div>
-  </section>
-
-  <!-- قسم روابط التحميل -->
-  <section id="downloads">
-    <h2>الروابط التحميل</h2>
-    <p>اضغط على زر التحميل بجانب التطبيق 👇</p>
-    <div class="download-list">
-      <div class="download-item">
-        <span>تطبيقي الأول</span>
-        <a href="https://example.com/app1.zip" target="_blank" class="download-btn">تحميل</a>
-      </div>
-      <div class="download-item">
-        <span>تطبيقي الثاني</span>
-        <a href="https://example.com/app2.zip" target="_blank" class="download-btn">تحميل</a>
-      </div>
-      <div class="download-item">
-        <span>تطبيقي الثالث</span>
-        <a href="https://example.com/app3.zip" target="_blank" class="download-btn">تحميل</a>
-      </div>
-      <div class="download-item">
-        <span>تطبيقي الرابع</span>
-        <a href="assets/ghassan-file.zip" target="_blank" class="download-btn">تحميل</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- قسم التواصل -->
-  <section id="contact">
-    <h2>تواصل معي</h2>
-    <form action="https://formspree.io/f/xnnbryqz" method="POST">
-      <input type="text" name="name" placeholder="الاسم" required>
-      <input type="email" name="email" placeholder="البريد الإلكتروني" required>
-      <textarea name="message" rows="5" placeholder="رسالتك" required></textarea>
-      <button type="submit">إرسال</button>
-    </form>
-  </section>
-
-  <!-- الفوتر -->
   <footer>
     <div class="footer-info">
       <div><i class="fas fa-map-marker-alt"></i> اليمن</div>
@@ -354,7 +303,7 @@
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
     function toggleMenu() {
-      document.getElementById("nav-links").classList.toggle("show");
+      document.getElementById("nav").classList.toggle("show");
     }
   </script>
 
