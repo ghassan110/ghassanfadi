@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>لعبة السيارة والحواجز</title>
+  <style>
+    body {
+      margin: 0;
+      background: #111;
+      color: #fff;
+      font-family: sans-serif;
+      text-align: center;
+    }
+    #gameCanvas {
+      display: none;
+      background: #222;
+      margin: 20px auto;
+      border: 2px solid #fff;
+      border-radius: 10px;
+    }
+    #startMenu {
+      margin-top: 100px;
+    }
+    button {
+      padding: 15px 30px;
+      font-size: 20px;
+      border: none;
+      border-radius: 10px;
+      background: #28a745;
+      color: white;
+      cursor: pointer;
+    }
+    #controls {
+      margin-top: 20px;
+      display: none;
+    }
+    .btn {
+      padding: 20px;
+      font-size: 18px;
+      border-radius: 50%;
+      margin: 10px;
+      background: #007bff;
+      color: white;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+  <div id="startMenu">
+    <h1>🚗 لعبة السيارة والحواجز</h1>
+    <button onclick="startGame()">ابدأ اللعبة</button>
+  </div>
+
+  <canvas id="gameCanvas" width="400" height="600"></canvas>
+
+  <div id="controls">
+    <button class="btn" onclick="moveLeft()">⬅️</button>
+    <button class="btn" onclick="moveRight()">➡️</button>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
