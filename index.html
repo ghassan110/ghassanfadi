@@ -332,7 +332,7 @@
 <!-- قسم التواصل -->
 <section id="contact">
   <h2>تواصل معي</h2>
-  <form id="contact-form" action="https://formspree.io/f/xnnbryqz" method="POST" onsubmit="sendToWhatsApp(event)">
+  <form id="contact-form" action="https://formspree.io/f/xnnbryqz" method="POST" onsubmit="confirmWhatsApp(event)">
     <input type="text" name="name" id="name" placeholder="الاسم" required>
     <input type="email" name="email" id="email" placeholder="البريد الإلكتروني" required>
     <textarea name="message" id="message" rows="5" placeholder="رسالتك" required></textarea>
@@ -340,10 +340,48 @@
   </form>
 </section>
 
+<!-- نافذة التأكيد -->
+<div id="whatsapp-confirm" style="
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.6);
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+">
+  <div style="
+    background: #222;
+    color: #fff;
+    padding: 25px;
+    border-radius: 12px;
+    text-align: center;
+    width: 300px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+  ">
+    <h3>هل لديك واتساب؟</h3>
+    <p>يمكننا إرسال نسخة من الرسالة إلى واتسابك مباشرة.</p>
+    <div style="margin-top: 20px; display: flex; justify-content: center; gap: 15px;">
+      <button id="yesBtn" style="background: #25D366; border: none; color: white; padding: 10px 20px; border-radius: 8px; cursor: pointer;">نعم</button>
+      <button id="noBtn" style="background: #555; border: none; color: white; padding: 10px 20px; border-radius: 8px; cursor: pointer;">لا</button>
+    </div>
+  </div>
+</div>
+
 <script>
-function sendToWhatsApp(event) {
+function confirmWhatsApp(event) {
   event.preventDefault();
-  const form = event.target;
+  document.getElementById("whatsapp-confirm").style.display = "flex";
+
+  const yesBtn = document.getElementById("yesBtn");
+  const noBtn = document.getElementById("noBtn");
+
+  yesBtn.onclick = () => sendForm(event.target, true);
+  noBtn.onclick = () => sendForm(event.target, false);
+}
+
+function sendForm(form, openWhatsApp) {
+  document.getElementById("whatsapp-confirm").style.display = "none";
 
   const name = document.getElementById('name').value.trim();
   const email = document.getElementById('email').value.trim();
@@ -359,8 +397,12 @@ function sendToWhatsApp(event) {
     headers: { "Accept": "application/json" }
   }).then(response => {
     if (response.ok) {
-      alert("✅ تم إرسال الرسالة بنجاح، وسيُفتح واتساب الآن للتواصل.");
-      window.open(waUrl, "_blank");
+      if (openWhatsApp) {
+        alert("✅ تم إرسال الرسالة، سيتم فتح واتساب الآن للتواصل.");
+        window.open(waUrl, "_blank");
+      } else {
+        alert("✅ تم إرسال الرسالة بنجاح بدون فتح واتساب.");
+      }
       form.reset();
     } else {
       alert("❌ حدث خطأ أثناء إرسال الرسالة. حاول مرة أخرى.");
@@ -370,7 +412,6 @@ function sendToWhatsApp(event) {
   });
 }
 </script>
-
  <!-- الفوتر -->
   <footer>
     <div class="footer-info">
