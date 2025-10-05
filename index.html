@@ -332,7 +332,7 @@
 <!-- قسم التواصل -->
 <section id="contact">
   <h2>تواصل معي</h2>
-  <form id="contact-form" action="https://formspree.io/f/xnnbryqz" method="POST" onsubmit="confirmWhatsApp(event)">
+  <form id="contact-form" onsubmit="confirmWhatsApp(event)">
     <input type="text" name="name" id="name" placeholder="الاسم" required>
     <input type="email" name="email" id="email" placeholder="البريد الإلكتروني" required>
     <textarea name="message" id="message" rows="5" placeholder="رسالتك" required></textarea>
@@ -349,8 +349,9 @@
   justify-content: center;
   align-items: center;
   z-index: 9999;
+  animation: fadeIn 0.4s ease;
 ">
-  <div style="
+  <div id="confirm-box" style="
     background: #222;
     color: #fff;
     padding: 25px;
@@ -358,31 +359,55 @@
     text-align: center;
     width: 300px;
     box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    transform: scale(0.8);
+    opacity: 0;
+    animation: popupIn 0.4s forwards;
   ">
     <h3>هل لديك واتساب؟</h3>
-    <p>يمكننا إرسال نسخة من الرسالة إلى واتسابك مباشرة.</p>
+    <p>يمكننا التواصل معك عبر واتساب أو عبر البريد الإلكتروني.</p>
     <div style="margin-top: 20px; display: flex; justify-content: center; gap: 15px;">
-      <button id="yesBtn" style="background: #25D366; border: none; color: white; padding: 10px 20px; border-radius: 8px; cursor: pointer;">نعم</button>
-      <button id="noBtn" style="background: #555; border: none; color: white; padding: 10px 20px; border-radius: 8px; cursor: pointer;">لا</button>
+      <button id="yesBtn" style="background: #25D366; border: none; color: white; padding: 10px 20px; border-radius: 8px; cursor: pointer;">تواصل عبر الواتساب</button>
+      <button id="noBtn" style="background: #555; border: none; color: white; padding: 10px 20px; border-radius: 8px; cursor: pointer;">تواصل عبر البريد الإلكتروني</button>
     </div>
   </div>
 </div>
+
+<style>
+@keyframes fadeIn {
+  from {opacity: 0;} to {opacity: 1;}
+}
+@keyframes popupIn {
+  to {transform: scale(1); opacity: 1;}
+}
+</style>
 
 <script>
 function confirmWhatsApp(event) {
   event.preventDefault();
   document.getElementById("whatsapp-confirm").style.display = "flex";
 
+  // الأزرار
   const yesBtn = document.getElementById("yesBtn");
   const noBtn = document.getElementById("noBtn");
 
-  yesBtn.onclick = () => sendForm(event.target, true);
-  noBtn.onclick = () => sendForm(event.target, false);
+  // إزالة أي مستمع سابق لتجنب التكرار
+  yesBtn.onclick = null;
+  noBtn.onclick = null;
+
+  // عند الضغط على "نعم"
+  yesBtn.onclick = () => {
+    document.getElementById("whatsapp-confirm").style.display = "none";
+    sendToWhatsApp();
+  };
+
+  // عند الضغط على "لا"
+  noBtn.onclick = () => {
+    document.getElementById("whatsapp-confirm").style.display = "none";
+    sendToEmail();
+  };
 }
 
-function sendForm(form, openWhatsApp) {
-  document.getElementById("whatsapp-confirm").style.display = "none";
-
+function sendToWhatsApp() {
   const name = document.getElementById('name').value.trim();
   const email = document.getElementById('email').value.trim();
   const message = document.getElementById('message').value.trim();
@@ -391,27 +416,31 @@ function sendForm(form, openWhatsApp) {
   const text = `👋 مرحبًا غسان!\nالاسم: ${name}\nالبريد: ${email}\nالرسالة:\n${message}`;
   const waUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(text)}`;
 
-  fetch(form.action, {
+  alert("✅ سيتم الآن فتح واتساب لإرسال رسالتك إلى غسان.");
+  window.open(waUrl, "_blank");
+  document.getElementById("contact-form").reset();
+}
+
+function sendToEmail() {
+  const form = document.getElementById("contact-form");
+  const formData = new FormData(form);
+
+  fetch("https://formspree.io/f/xnnbryqz", {
     method: "POST",
-    body: new FormData(form),
+    body: formData,
     headers: { "Accept": "application/json" }
   }).then(response => {
     if (response.ok) {
-      if (openWhatsApp) {
-        alert("✅ تم إرسال الرسالة، سيتم فتح واتساب الآن للتواصل.");
-        window.open(waUrl, "_blank");
-      } else {
-        alert("✅ تم إرسال الرسالة بنجاح بدون فتح واتساب.");
-      }
+      alert("✅ تم إرسال الرسالة بنجاح عبر البريد الإلكتروني.");
       form.reset();
     } else {
-      alert("❌ حدث خطأ أثناء إرسال الرسالة. حاول مرة أخرى.");
+      alert("❌ حدث خطأ أثناء الإرسال، حاول مرة أخرى.");
     }
   }).catch(() => {
-    alert("⚠️ تعذر الإرسال. تحقق من اتصالك بالإنترنت.");
+    alert("⚠️ تحقق من اتصال الإنترنت.");
   });
 }
-</script>
+  </script>
  <!-- الفوتر -->
   <footer>
     <div class="footer-info">
