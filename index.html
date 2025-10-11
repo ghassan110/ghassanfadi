@@ -413,7 +413,7 @@ function sendToWhatsApp() {
   const message = document.getElementById('message').value.trim();
 
   const phoneNumber = "967781324733";
-  const text = `👋 مرحبًا غسان!\nالاسم: ${name}\nالبريد: ${email}\nالرسالة:\n${message}`;
+  const text = ` (https://ghassan-fadi.vercel.app):مرحبًا غسان! لديك رساله من موقع\nالاسم: ${name}\nالبريد: ${email}\nالرسالة:\n${message}`;
   const waUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(text)}`;
 
   alert("✅ سيتم الآن فتح واتساب لإرسال رسالتك إلى غسان.");
