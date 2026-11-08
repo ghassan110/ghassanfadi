@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>موقع غسان الشخصي</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23171717'/%3E%3Ctext x='50%25' y='52%25' dominant-baseline='middle' text-anchor='middle' font-size='42' font-family='Arial' font-weight='bold' fill='%23d4af37'%3EG%3C/text%3E%3C/svg%3E">
   <style>
     body {
       margin: 0;
@@ -62,21 +63,73 @@
       nav ul {
         display: none;
         flex-direction: column;
-        background: #222;
+        gap: 8px;
+        background: linear-gradient(160deg, #292929, #1c1c1c);
         position: absolute;
-        top: 60px;
-        right: 20px;
-        width: 200px;
-        padding: 15px;
-        border-radius: 8px;
+        top: 68px;
+        right: 14px;
+        width: min(270px, calc(100vw - 42px));
+        padding: 16px;
+        border: 1px solid rgba(184, 134, 11, 0.45);
+        border-radius: 16px;
+        box-shadow: 0 14px 35px rgba(0,0,0,0.45);
+        box-sizing: border-box;
+        z-index: 2000;
       }
 
       nav ul.show {
         display: flex;
       }
 
+      nav ul li a {
+        display: block;
+        padding: 10px 12px;
+        border-radius: 9px;
+        color: #f3f3f3;
+        transition: background 0.2s, color 0.2s;
+      }
+
+      nav ul li a:hover {
+        background: rgba(184, 134, 11, 0.18);
+        color: #e0b84f;
+      }
+
       .menu-toggle {
         display: block;
+        width: 42px;
+        height: 42px;
+        padding: 0;
+        border: 1px solid rgba(184, 134, 11, 0.55);
+        border-radius: 11px;
+        background: #292929;
+        color: #e0b84f;
+        font-size: 25px;
+        line-height: 42px;
+        text-align: center;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+      }
+
+      .menu-close {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 3px;
+      }
+
+      .menu-close button {
+        width: 34px;
+        height: 34px;
+        padding: 0;
+        border-radius: 9px;
+        background: #8f2929;
+        color: #fff;
+        font-size: 20px;
+        line-height: 1;
+      }
+    }
+
+    @media (min-width: 769px) {
+      .menu-close {
+        display: none;
       }
     }
 
@@ -130,13 +183,41 @@
     }
 
     button {
-      background: #444;
+      background: #8f6a16;
       color: #fff;
       cursor: pointer;
+      transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
     }
 
     button:hover {
-      background: #666;
+      background: #a98225;
+      box-shadow: 0 4px 12px rgba(184, 134, 11, 0.22);
+    }
+
+    .download-btn {
+      background: #8f6a16;
+      color: #fff;
+    }
+
+    .download-btn:hover {
+      background: #a98225;
+    }
+
+    .game-fullscreen-btn {
+      background: #8f6a16;
+    }
+
+    .game-fullscreen-btn:hover {
+      background: #a98225;
+    }
+
+    #contact form button[type="submit"] {
+      background: #8f6a16;
+      color: #fff;
+    }
+
+    #contact form button[type="submit"]:hover {
+      background: #a98225;
     }
 
     footer {
@@ -178,7 +259,15 @@
     }
 
     .socials a:hover {
-      color: #fff;
+      color: #d6ad45;
+    }
+
+    nav ul li a:hover {
+      color: #d6ad45;
+    }
+
+    .download-btn {
+      transition: background 0.2s, box-shadow 0.2s;
     }
 
     /* ألعابي */
@@ -310,18 +399,145 @@
     .download-item span{font-weight:700}
 
     .download-btn {
-      background: #444;
+      background: #8f6a16;
       color: #fff;
       text-decoration: none;
       padding: 8px 14px;
       border-radius: 6px;
-      transition: background 0.3s;
+      transition: background 0.3s, box-shadow 0.3s;
     }
 
     .download-btn:hover {
-      background: #666;
+      background: #a98225;
+      box-shadow: 0 4px 12px rgba(184, 134, 11, 0.25);
     }
-  </style>
+
+    /* ألوان الموقع الجديدة فقط - مع الحفاظ على نفس التصميم */
+    body {
+      background: linear-gradient(135deg, #171717 0%, #211d17 55%, #171717 100%);
+      color: #fff;
+    }
+
+    #portfolio, #games, #downloads {
+      background: #555;
+      color: #fff;
+    }
+
+    .game-card {
+      background: #666;
+      color: #fff;
+    }
+
+    .download-item {
+      background: #666;
+      color: #fff;
+    }
+
+    .download-item span {
+      color: #fff;
+    }
+
+    input, textarea {
+      background: #555;
+      color: #fff;
+    }
+
+    input::placeholder, textarea::placeholder {
+      color: #ddd;
+    }
+  
+    /* إضافات بسيطة لتحسين تجربة الزائر */
+    #site-clock {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 7px 14px;
+      border: 1px solid rgba(212, 175, 55, 0.45);
+      border-radius: 20px;
+      color: #e0b84f;
+      background: rgba(25, 25, 25, 0.72);
+      font-size: 14px;
+      letter-spacing: 0.3px;
+    }
+
+    #welcome-message {
+      position: fixed;
+      top: 86px;
+      left: 50%;
+      transform: translate(-50%, -12px);
+      z-index: 3000;
+      width: max-content;
+      max-width: calc(100% - 36px);
+      box-sizing: border-box;
+      padding: 11px 18px;
+      border: 1px solid rgba(212, 175, 55, 0.55);
+      border-radius: 12px;
+      background: #222;
+      color: #f1d477;
+      text-align: center;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+      opacity: 0;
+      pointer-events: none;
+      animation: welcomeIn 0.65s ease forwards, welcomeOut 0.6s ease 4.2s forwards;
+    }
+
+    @keyframes welcomeIn {
+      to { opacity: 1; transform: translate(-50%, 0); }
+    }
+
+    @keyframes welcomeOut {
+      to { opacity: 0; transform: translate(-50%, -10px); }
+    }
+
+    .reveal-on-scroll {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+
+    .reveal-on-scroll.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    #back-to-top {
+      position: fixed;
+      bottom: 22px;
+      left: 20px;
+      z-index: 2500;
+      width: 46px;
+      height: 46px;
+      border: 1px solid rgba(212, 175, 55, 0.65);
+      border-radius: 50%;
+      background: #8f6a16;
+      color: #fff;
+      font-size: 23px;
+      cursor: pointer;
+      box-shadow: 0 5px 16px rgba(0,0,0,0.35);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(8px);
+      transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s;
+    }
+
+    #back-to-top.visible {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    #back-to-top:hover {
+      background: #a98225;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal-on-scroll, #back-to-top, #welcome-message {
+        animation: none !important;
+        transition: none !important;
+      }
+      .reveal-on-scroll { opacity: 1; transform: none; }
+      #welcome-message { display: none; }
+    }
+</style>
   <script src="https://kit.fontawesome.com/0ffd6ece31.js" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -331,6 +547,7 @@
     <div class="logo">موقع غسان الشخصي</div>
     <nav>
       <ul id="nav-links">
+        <li class="menu-close"><button type="button" onclick="closeMenu()" aria-label="إغلاق القائمة">✕</button></li>
         <li><a href="#about">من أنا</a></li>
         <li><a href="#portfolio">أعمالي</a></li>
         <li><a href="#games">ألعابي</a></li>
@@ -340,12 +557,16 @@
     </nav>
   </header>
 
+  <div id="welcome-message" role="status">أهلاً وسهلاً بك في موقع غسان الشخصي ✨</div>
+  <button id="back-to-top" type="button" aria-label="العودة إلى أعلى الصفحة" title="العودة للأعلى">↑</button>
+
   <!-- قسم من أنا -->
   <section id="about">
     <img src="ghassan/profile.jpg" alt="صورتي الشخصية">
     <h2>من أنا</h2>
     <p>أنا غسان فادي نوفل.
     هذا موقعي الشخصي لعرض أعمالي وألعابي والتواصل معي.</p>
+    <div id="site-clock" aria-live="off">جاري تحميل الوقت والتاريخ...</div>
   </section>
 
   <!-- قسم الأعمال -->
@@ -595,6 +816,56 @@
     document.getElementById("year").textContent = new Date().getFullYear();
     function toggleMenu() {
       document.getElementById("nav-links").classList.toggle("show");
+    }
+
+    function closeMenu() {
+      document.getElementById("nav-links").classList.remove("show");
+    }
+
+    // تحديث الساعة والتاريخ حسب توقيت الجهاز.
+    function updateSiteClock() {
+      const clock = document.getElementById("site-clock");
+      if (!clock) return;
+      const now = new Date();
+      const time = now.toLocaleTimeString("ar", {
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit"
+      });
+      const date = now.toLocaleDateString("ar", {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+      });
+      clock.textContent = date + " • " + time;
+    }
+    updateSiteClock();
+    setInterval(updateSiteClock, 1000);
+
+    // إظهار زر العودة للأعلى بعد النزول في الصفحة.
+    const backToTopButton = document.getElementById("back-to-top");
+    window.addEventListener("scroll", () => {
+      backToTopButton.classList.toggle("visible", window.scrollY > 300);
+    }, { passive: true });
+
+    backToTopButton.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    // إظهار الأقسام تدريجياً عند وصولها إلى الشاشة.
+    const sectionsToReveal = document.querySelectorAll("body > section, body > footer");
+    if ("IntersectionObserver" in window) {
+      sectionsToReveal.forEach(section => section.classList.add("reveal-on-scroll"));
+      const revealObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12 });
+      sectionsToReveal.forEach(section => revealObserver.observe(section));
     }
   </script>
 
