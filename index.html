@@ -265,18 +265,83 @@
     }
 
     #contact form {
-      max-width: 400px;
+      width: min(100%, 460px);
       margin: auto;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 12px;
+      align-items: stretch;
     }
 
-    input, textarea, button {
-      padding: 10px;
-      border-radius: 6px;
-      border: none;
-      font-size: 16px;
+    /* حقول التواصل موحدة الحجم، والرسالة تتمدد تلقائياً مع الكتابة */
+    #contact form input,
+    #contact form textarea,
+    #contact form button[type="submit"] {
+      display: block;
+      width: 100%;
+      box-sizing: border-box;
+      padding: 14px 16px;
+      border-radius: 9px;
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      font-family: inherit;
+      font-size: 18px;
+      line-height: 1.5;
+    }
+
+    #contact form input {
+      height: 56px;
+    }
+
+    #contact form textarea {
+      min-height: 130px;
+      max-height: 380px;
+      height: 130px;
+      resize: none;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+
+    #contact form button[type="submit"] {
+      min-height: 56px;
+      padding: 13px 18px;
+      font-weight: 700;
+      font-size: 19px;
+      border: 0;
+    }
+
+    @media (min-width: 769px) {
+      /* تكبير بطاقات الألعاب على الكمبيوتر فقط لتقترب من حجم صور قسم أعمالي */
+      .games-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 22px;
+      }
+
+      .game-card {
+        padding: 18px;
+      }
+
+      .game-screen {
+        height: 280px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      #contact form {
+        width: min(100%, 460px);
+      }
+
+      #contact form input,
+      #contact form textarea,
+      #contact form button[type="submit"] {
+        font-size: 16px;
+      }
+
+      #contact form input,
+      #contact form button[type="submit"] {
+        min-height: 52px;
+        height: 52px;
+      }
     }
 
     button {
@@ -977,6 +1042,19 @@
     }
     updateSiteClock();
     setInterval(updateSiteClock, 1000);
+
+    // تكبير مربع الرسالة تلقائياً مع زيادة النص، مع حد أقصى ثابت يمنع تمدده بلا نهاية.
+    const messageField = document.getElementById("message");
+    if (messageField) {
+      const resizeMessageField = () => {
+        messageField.style.height = "130px";
+        const nextHeight = Math.min(messageField.scrollHeight, 380);
+        messageField.style.height = nextHeight + "px";
+        messageField.style.overflowY = messageField.scrollHeight > 380 ? "auto" : "hidden";
+      };
+      messageField.addEventListener("input", resizeMessageField);
+      resizeMessageField();
+    }
 
     // إظهار زر العودة للأعلى بعد النزول في الصفحة.
     const backToTopButton = document.getElementById("back-to-top");
