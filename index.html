@@ -201,11 +201,89 @@
       margin-bottom: 10px;
     }
 
-    .game-card iframe {
+    /* إطار اللعبة وأزرار التحكم */
+    .game-screen {
+      position: relative;
       width: 100%;
       height: 200px;
       border-radius: 8px;
+      overflow: hidden;
+      background: #111;
+    }
+
+    .game-screen iframe {
+      display: block;
+      position: relative;
+      width: 100%;
+      height: 100%;
       border: 1px solid #ccc;
+      border-radius: 8px;
+      box-sizing: border-box;
+    }
+
+    .game-screen:fullscreen {
+      width: 100vw;
+      height: 100vh;
+      max-width: none;
+      border-radius: 0;
+      background: #000;
+    }
+
+    .game-screen:fullscreen iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      border-radius: 0;
+    }
+
+    .game-screen:-webkit-full-screen {
+      width: 100vw;
+      height: 100vh;
+      border-radius: 0;
+      background: #000;
+    }
+
+    .game-screen:-webkit-full-screen iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      border-radius: 0;
+    }
+
+    .game-control {
+      position: absolute;
+      z-index: 20;
+      border: 0;
+      padding: 9px 13px;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+      line-height: 1.3;
+      cursor: pointer;
+      opacity: 0.95;
+    }
+
+    .game-fullscreen-btn {
+      right: 10px;
+      bottom: 10px;
+      background: #9a7200;
+    }
+
+    .game-exit-btn {
+      display: none;
+      top: 10px;
+      right: 10px;
+      background: #b3261e;
+    }
+
+    .game-screen:fullscreen .game-fullscreen-btn,
+    .game-screen:-webkit-full-screen .game-fullscreen-btn {
+      display: none;
+    }
+
+    .game-screen:fullscreen .game-exit-btn,
+    .game-screen:-webkit-full-screen .game-exit-btn {
+      display: block;
     }
 
     /* قسم التحميل */
@@ -243,7 +321,7 @@
     .download-btn:hover {
       background: #666;
     }
-  <style type="text/css">iframe { position: absolute; width: 100%; height: 100%; z-index: 999; }</style>
+  </style>
   <script src="https://kit.fontawesome.com/0ffd6ece31.js" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -286,36 +364,47 @@
     <h2>اللاعب</h2>
     <p>استمتع بتجربة اللاعب 👇</p>
     <div class="games-grid">
-  <div class="game-card">
-    <h3>لعبة 1</h3>
-  <iframe
-    src="https://psx8.github.io/"
-    width="100%"
-    height="500"
-    frameborder="0"
-    allowfullscreen>
-</iframe>
-</div>
- <div class="game-card">
-    <h3>لعبة 2</h3>
-  <iframe
-    src="games/game1/index.html"
-    width="100%"
-    height="500"
-    frameborder="0"
-    allowfullscreen>
-</iframe>
-</div>
- <div class="game-card">
-    <h3>لعبة 3</h3>
-  <iframe
-    src="games/game1/index.html"
-    width="100%"
-    height="500"
-    frameborder="0"
-    allowfullscreen>
-</iframe>
-</div>
+      <div class="game-card">
+        <h3>لعبة 1</h3>
+        <div class="game-screen">
+          <iframe
+            src="https://psx8.github.io/"
+            title="لعبة 1"
+            allow="fullscreen; autoplay"
+            allowfullscreen>
+          </iframe>
+          <button type="button" class="game-control game-fullscreen-btn" onclick="openGame(this)">⛶ تكبير الشاشة</button>
+          <button type="button" class="game-control game-exit-btn" onclick="closeGame()">✕ خروج</button>
+        </div>
+      </div>
+
+      <div class="game-card">
+        <h3>لعبة 2</h3>
+        <div class="game-screen">
+          <iframe
+            src="games/game1/index.html"
+            title="لعبة 2"
+            allow="fullscreen; autoplay"
+            allowfullscreen>
+          </iframe>
+          <button type="button" class="game-control game-fullscreen-btn" onclick="openGame(this)">⛶ تكبير الشاشة</button>
+          <button type="button" class="game-control game-exit-btn" onclick="closeGame()">✕ خروج</button>
+        </div>
+      </div>
+
+      <div class="game-card">
+        <h3>لعبة 3</h3>
+        <div class="game-screen">
+          <iframe
+            src="games/game1/index.html"
+            title="لعبة 3"
+            allow="fullscreen; autoplay"
+            allowfullscreen>
+          </iframe>
+          <button type="button" class="game-control game-fullscreen-btn" onclick="openGame(this)">⛶ تكبير الشاشة</button>
+          <button type="button" class="game-control game-exit-btn" onclick="closeGame()">✕ خروج</button>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -339,7 +428,7 @@
       <div class="download-item">
         <span>موقع 1</span>
         <a href="https://example.com/app4.zip" target="_blank" class="download-btn">فتح الموقع</a>
-        </div>
+      </div>
       <div class="download-item">
         <span>موقع 2</span>
         <a href="https://example.com/app5.zip" target="_blank" class="download-btn">فتح الموقع</a>
@@ -347,119 +436,142 @@
     </div>
   </section>
 
-<!-- قسم التواصل -->
-<section id="contact">
-  <h2>تواصل معي</h2>
-  <form id="contact-form" onsubmit="confirmWhatsApp(event)">
-    <input type="text" name="name" id="name" placeholder="الاسم" required>
-    <input type="email" name="email" id="email" placeholder="البريد الإلكتروني" required>
-    <textarea name="message" id="message" rows="5" placeholder="رسالتك" required></textarea>
-    <button type="submit">إرسال</button>
-  </form>
-</section>
+  <!-- قسم التواصل -->
+  <section id="contact">
+    <h2>تواصل معي</h2>
+    <form id="contact-form" onsubmit="confirmWhatsApp(event)">
+      <input type="text" name="name" id="name" placeholder="الاسم" required>
+      <input type="email" name="email" id="email" placeholder="البريد الإلكتروني" required>
+      <textarea name="message" id="message" rows="5" placeholder="رسالتك" required></textarea>
+      <button type="submit">إرسال</button>
+    </form>
+  </section>
 
-<!-- نافذة التأكيد -->
-<div id="whatsapp-confirm" style="
-  display: none;
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.6);
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-  animation: fadeIn 0.4s ease;
-">
-  <div id="confirm-box" style="
-    background: #222;
-    color: #fff;
-    padding: 25px;
-    border-radius: 12px;
-    text-align: center;
-    width: 300px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
-    transform: scale(0.8);
-    opacity: 0;
-    animation: popupIn 0.4s forwards;
+  <!-- نافذة التأكيد -->
+  <div id="whatsapp-confirm" style="
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.6);
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    animation: fadeIn 0.4s ease;
   ">
-    <h3>هل لديك واتساب؟</h3>
-    <p>يمكننا التواصل معك عبر واتساب أو عبر البريد الإلكتروني.</p>
-    <div style="margin-top: 20px; display: flex; justify-content: center; gap: 15px;">
-      <button id="yesBtn" style="background: #25D366; border: none; color: white; padding: 10px 20px; border-radius: 8px; cursor: pointer;">تواصل عبر الواتساب</button>
-      <button id="noBtn" style="background: #555; border: none; color: white; padding: 10px 20px; border-radius: 8px; cursor: pointer;">تواصل عبر البريد الإلكتروني</button>
+    <div id="confirm-box" style="
+      background: #222;
+      color: #fff;
+      padding: 25px;
+      border-radius: 12px;
+      text-align: center;
+      width: 300px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+      transform: scale(0.8);
+      opacity: 0;
+      animation: popupIn 0.4s forwards;
+    ">
+      <h3>هل لديك واتساب؟</h3>
+      <p>يمكننا التواصل معك عبر واتساب أو عبر البريد الإلكتروني.</p>
+      <div style="margin-top: 20px; display: flex; justify-content: center; gap: 15px;">
+        <button id="yesBtn" style="background: #25D366; border: none; color: white; padding: 10px 20px; border-radius: 8px; cursor: pointer;">تواصل عبر الواتساب</button>
+        <button id="noBtn" style="background: #555; border: none; color: white; padding: 10px 20px; border-radius: 8px; cursor: pointer;">تواصل عبر البريد الإلكتروني</button>
+      </div>
     </div>
   </div>
-</div>
 
-<style>
-@keyframes fadeIn {
-  from {opacity: 0;} to {opacity: 1;}
-}
-@keyframes popupIn {
-  to {transform: scale(1); opacity: 1;}
-}
-</style>
-
-<script>
-function confirmWhatsApp(event) {
-  event.preventDefault();
-  document.getElementById("whatsapp-confirm").style.display = "flex";
-
-  // الأزرار
-  const yesBtn = document.getElementById("yesBtn");
-  const noBtn = document.getElementById("noBtn");
-
-  // إزالة أي مستمع سابق لتجنب التكرار
-  yesBtn.onclick = null;
-  noBtn.onclick = null;
-
-  // عند الضغط على "نعم"
-  yesBtn.onclick = () => {
-    document.getElementById("whatsapp-confirm").style.display = "none";
-    sendToWhatsApp();
-  };
-
-  // عند الضغط على "لا"
-  noBtn.onclick = () => {
-    document.getElementById("whatsapp-confirm").style.display = "none";
-    sendToEmail();
-  };
-}
-
-function sendToWhatsApp() {
-  const name = document.getElementById('name').value.trim();
-  const email = document.getElementById('email').value.trim();
-  const message = document.getElementById('message').value.trim();
-
-  const phoneNumber = "967781324733";
-  const text = ` (https://ghassan-fadi.vercel.app):مرحبًا غسان! لديك رساله من موقع\nالاسم: ${name}\nالبريد: ${email}\nالرسالة:\n${message}`;
-  const waUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(text)}`;
-
-  alert("✅ سيتم الآن فتح واتساب لإرسال رسالتك إلى غسان.");
-  window.open(waUrl, "_blank");
-  document.getElementById("contact-form").reset();
-}
-
-function sendToEmail() {
-  const form = document.getElementById("contact-form");
-  const formData = new FormData(form);
-
-  fetch("https://formspree.io/f/xnnbryqz", {
-    method: "POST",
-    body: formData,
-    headers: { "Accept": "application/json" }
-  }).then(response => {
-    if (response.ok) {
-      alert("✅ تم إرسال الرسالة بنجاح عبر البريد الإلكتروني.");
-      form.reset();
-    } else {
-      alert("❌ حدث خطأ أثناء الإرسال، حاول مرة أخرى.");
+  <style>
+    @keyframes fadeIn {
+      from {opacity: 0;} to {opacity: 1;}
     }
-  }).catch(() => {
-    alert("⚠️ تحقق من اتصال الإنترنت.");
-  });
-}
+    @keyframes popupIn {
+      to {transform: scale(1); opacity: 1;}
+    }
+  </style>
+
+  <script>
+    function confirmWhatsApp(event) {
+      event.preventDefault();
+      document.getElementById("whatsapp-confirm").style.display = "flex";
+
+      const yesBtn = document.getElementById("yesBtn");
+      const noBtn = document.getElementById("noBtn");
+
+      yesBtn.onclick = null;
+      noBtn.onclick = null;
+
+      yesBtn.onclick = () => {
+        document.getElementById("whatsapp-confirm").style.display = "none";
+        sendToWhatsApp();
+      };
+
+      noBtn.onclick = () => {
+        document.getElementById("whatsapp-confirm").style.display = "none";
+        sendToEmail();
+      };
+    }
+
+    function sendToWhatsApp() {
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const message = document.getElementById('message').value.trim();
+
+      const phoneNumber = "967781324733";
+      const text = ` (https://ghassan-fadi.vercel.app):مرحبًا غسان! لديك رساله من موقع\nالاسم: ${name}\nالبريد: ${email}\nالرسالة:\n${message}`;
+      const waUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(text)}`;
+
+      alert("✅ سيتم الآن فتح واتساب لإرسال رسالتك إلى غسان.");
+      window.open(waUrl, "_blank");
+      document.getElementById("contact-form").reset();
+    }
+
+    function sendToEmail() {
+      const form = document.getElementById("contact-form");
+      const formData = new FormData(form);
+
+      fetch("https://formspree.io/f/xnnbryqz", {
+        method: "POST",
+        body: formData,
+        headers: { "Accept": "application/json" }
+      }).then(response => {
+        if (response.ok) {
+          alert("✅ تم إرسال الرسالة بنجاح عبر البريد الإلكتروني.");
+          form.reset();
+        } else {
+          alert("❌ حدث خطأ أثناء الإرسال، حاول مرة أخرى.");
+        }
+      }).catch(() => {
+        alert("⚠️ تحقق من اتصال الإنترنت.");
+      });
+    }
+
+    /* تكبير اللعبة المحددة والخروج منها */
+    async function openGame(button) {
+      const gameScreen = button.closest(".game-screen");
+      if (!gameScreen) return;
+
+      try {
+        if (gameScreen.requestFullscreen) {
+          await gameScreen.requestFullscreen();
+        } else if (gameScreen.webkitRequestFullscreen) {
+          gameScreen.webkitRequestFullscreen();
+        } else {
+          alert("المتصفح لا يدعم وضع ملء الشاشة.");
+        }
+      } catch (error) {
+        alert("تعذر تكبير اللعبة. جرّب فتح الموقع من متصفح يدعم ملء الشاشة.");
+      }
+    }
+
+    async function closeGame() {
+      if (document.fullscreenElement && document.exitFullscreen) {
+        await document.exitFullscreen();
+      } else if (document.webkitFullscreenElement && document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+      }
+    }
   </script>
- <!-- الفوتر -->
+
+  <!-- الفوتر -->
   <footer>
     <div class="footer-info">
       <div><i class="fas fa-map-marker-alt"></i> اليمن</div>
@@ -469,15 +581,16 @@ function sendToEmail() {
 
     <!-- روابط التواصل الاجتماعي -->
     <div class="socials">
-  <a href="https://www.facebook.com/profile.php?id=61563149194292&mibextid=ZbWKwL" target="_blank"><i class="fab fa-facebook"></i></a>
-  <a href="https://www.instagram.com/master_x_600?igsh=djViNWhpZDZ5ZXI5" target="_blank"><i class="fab fa-instagram"></i></a>
-  <a href="https://discord.gg/ghassan_5090" target="_blank"><i class="fab fa-discord"></i></a>
-  <a href="https://t.me/Ghassan_Fadi" target="_blank"><i class="fab fa-telegram"></i></a>
-  <a href="https://wa.me/967781324733" target="_blank"><i class="fab fa-whatsapp"></i></a>
+      <a href="https://www.facebook.com/profile.php?id=61563149194292&mibextid=ZbWKwL" target="_blank"><i class="fab fa-facebook"></i></a>
+      <a href="https://www.instagram.com/master_x_600?igsh=djViNWhpZDZ5ZXI5" target="_blank"><i class="fab fa-instagram"></i></a>
+      <a href="https://discord.gg/ghassan_5090" target="_blank"><i class="fab fa-discord"></i></a>
+      <a href="https://t.me/Ghassan_Fadi" target="_blank"><i class="fab fa-telegram"></i></a>
+      <a href="https://wa.me/967781324733" target="_blank"><i class="fab fa-whatsapp"></i></a>
     </div>
 
     <p>© <span id="year"></span> جميع الحقوق محفوظه</p>
   </footer>
+
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
     function toggleMenu() {
@@ -486,4 +599,4 @@ function sendToEmail() {
   </script>
 
 </body>
-  </html>
+</html>
