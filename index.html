@@ -3,6 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script>
+    // ابدأ دائماً من أعلى الصفحة، حتى لو كان المتصفح قد حفظ رابط قسم سابق مثل #games.
+    if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+    if (window.location.hash) {
+      history.replaceState(null, "", window.location.pathname + window.location.search);
+    }
+    window.addEventListener("pageshow", function () {
+      window.scrollTo(0, 0);
+      requestAnimationFrame(function () { window.scrollTo(0, 0); });
+      setTimeout(function () { window.scrollTo(0, 0); }, 150);
+    });
+  </script>
   <title>موقع غسان الشخصي</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23171717'/%3E%3Ctext x='50%25' y='52%25' dominant-baseline='middle' text-anchor='middle' font-size='42' font-family='Arial' font-weight='bold' fill='%23d4af37'%3EG%3C/text%3E%3C/svg%3E">
   <style>
