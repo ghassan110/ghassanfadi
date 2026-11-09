@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script>
+    // ابدأ دائماً من أعلى الصفحة، حتى لو كان المتصفح قد حفظ رابط قسم سابق مثل #games.
+    if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+    if (window.location.hash) {
+      history.replaceState(null, "", window.location.pathname + window.location.search);
+    }
+    window.addEventListener("pageshow", function () {
+      window.scrollTo(0, 0);
+      requestAnimationFrame(function () { window.scrollTo(0, 0); });
+      setTimeout(function () { window.scrollTo(0, 0); }, 150);
+    });
+  </script>
+  <title>موقع غسان الشخصي</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23171717'/%3E%3Ctext x='50%25' y='52%25' dominant-baseline='middle' text-anchor='middle' font-size='42' font-family='Arial' font-weight='bold' fill='%23d4af37'%3EG%3C/text%3E%3C/svg%3E">
+  <style>
+    body {
+      margin: 0;
+      font-family: "Tajawal", sans-serif;
+      background-color: #111;
+      color: #fff;
+      line-height: 1.6;
+    }
+
+    /* الهيدر */
+    header {
+      background: #222;
+      padding: 12px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    header .logo {
+      font-size: 20px;
+      font-weight: bold;
+      color: #fff;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 16px;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav ul li a {
+      position: relative;
+      display: inline-block;
+      color: #cfcfcf;
+      text-decoration: none;
+      font-weight: 600;
+      padding: 8px 4px;
+      transition: color 0.25s ease, transform 0.25s ease, text-shadow 0.25s ease;
+    }
+
+    /* مؤثرات التنقل في الكمبيوتر */
+    nav ul li a::after {
+      content: "";
+      position: absolute;
+      right: 0;
+      bottom: 2px;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, #8f6a16, #e0b84f);
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 0.28s ease;
+      border-radius: 2px;
+    }
+
+    nav ul li a:hover,
+    nav ul li a.active {
+      color: #e0b84f;
+      transform: translateY(-2px);
+      text-shadow: 0 0 12px rgba(212, 175, 55, 0.28);
+    }
+
+    nav ul li a:hover::after,
+    nav ul li a.active::after {
+      transform: scaleX(1);
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 85px;
+    }
+
+    section[id] {
+      scroll-margin-top: 85px;
+    }
+
+    /* زر ☰ */
+    .menu-toggle {
+      font-size: 26px;
+      color: #fff;
+      cursor: pointer;
+      display: none;
+    }
+
+    /* الموبايل */
+    @media (max-width: 768px) {
+      nav ul {
+        display: none;
+        flex-direction: column;
+        gap: 8px;
+        background: linear-gradient(160deg, #292929, #1c1c1c);
+        position: absolute;
+        top: 68px;
+        right: 14px;
+        width: min(270px, calc(100vw - 42px));
+        padding: 16px;
+        border: 1px solid rgba(184, 134, 11, 0.45);
+        border-radius: 16px;
+        box-shadow: 0 14px 35px rgba(0,0,0,0.45);
+        box-sizing: border-box;
+        z-index: 2000;
+      }
+
+      nav ul.show {
+        display: flex;
+      }
+
+      nav ul li a {
+        display: block;
+        padding: 10px 12px;
+        border-radius: 9px;
+        color: #f3f3f3;
+        transform: none;
+        transition: background 0.25s ease, color 0.25s ease, padding-right 0.25s ease;
+      }
+
+      nav ul li a::after {
+        display: none;
+      }
+
+      nav ul li a:hover,
+      nav ul li a.active {
+        background: rgba(184, 134, 11, 0.18);
+        color: #e0b84f;
+        padding-right: 18px;
+        transform: none;
+      }
+
+      .menu-toggle {
+        display: block;
+        width: 42px;
+        height: 42px;
+        padding: 0;
+        border: 1px solid rgba(184, 134, 11, 0.55);
+        border-radius: 11px;
+        background: #292929;
+        color: #e0b84f;
+        font-size: 25px;
+        line-height: 42px;
+        text-align: center;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+      }
+
+      .menu-close {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 3px;
+      }
+
+      .menu-close button {
+        width: 34px;
+        height: 34px;
+        padding: 0;
+        border-radius: 9px;
+        background: #8f2929;
+        color: #fff;
+        font-size: 20px;
+        line-height: 1;
+      }
+    }
+
+    @media (min-width: 769px) {
+      .menu-close {
+        display: none;
+      }
+    }
+
+    section {
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    #about img {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      margin-bottom: 20px;
+      border: 3px solid #fff;
+    }
+
+    #portfolio, #games, #downloads {
+      background: #fff;
+      color: #000;
+      min-height: 250px;
+      border-radius: 12px;
+      margin: 20px;
+      padding: 20px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .grid img {
+      display: block;
+      width: 100%;
+      height: 230px;
+      object-fit: cover;
+      border: 2px solid #d4af37;
+      border-radius: 12px;
+      box-sizing: border-box;
+      box-shadow: 0 4px 14px rgba(212, 175, 55, 0.16);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .grid img:hover {
+      transform: scale(1.025);
+      box-shadow: 0 7px 20px rgba(212, 175, 55, 0.28);
+    }
+
+    .game-card iframe {
+      width: 100%;
+      border-radius: 10px;
+    }
+
+    #about img {
+      border: 3px solid #d4af37;
+      box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.12), 0 5px 18px rgba(212, 175, 55, 0.2);
+    }
+
+    @media (max-width: 768px) {
+      .grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .grid img {
+        height: 165px;
+        border-width: 2px;
+        border-radius: 10px;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .grid img {
+        height: 135px;
+      }
+    }
+
+    #contact form {
+      width: min(100%, 460px);
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      align-items: stretch;
+    }
+
+    /* حقول التواصل موحدة الحجم، والرسالة تتمدد تلقائياً مع الكتابة */
+    #contact form input,
+    #contact form textarea,
+    #contact form button[type="submit"] {
+      display: block;
+      width: 100%;
+      box-sizing: border-box;
+      padding: 14px 16px;
+      border-radius: 9px;
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      font-family: inherit;
+      font-size: 18px;
+      line-height: 1.5;
+    }
+
+    #contact form input {
+      height: 56px;
+    }
+
+    #contact form textarea {
+      min-height: 130px;
+      max-height: 380px;
+      height: 130px;
+      resize: none;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+
+    #contact form button[type="submit"] {
+      min-height: 56px;
+      padding: 13px 18px;
+      font-weight: 700;
+      font-size: 19px;
+      border: 0;
+    }
+
+    @media (min-width: 769px) {
+      /* تكبير بطاقات الألعاب على الكمبيوتر فقط لتقترب من حجم صور قسم أعمالي */
+      .games-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 22px;
+      }
+
+      .game-card {
+        padding: 18px;
+      }
+
+      .game-screen {
+        height: 280px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      #contact form {
+        width: min(100%, 460px);
+      }
+
+      #contact form input,
+      #contact form textarea,
+      #contact form button[type="submit"] {
+        font-size: 16px;
+      }
+
+      #contact form input,
+      #contact form button[type="submit"] {
+        min-height: 52px;
+        height: 52px;
+      }
+    }
+
+    button {
+      background: #8f6a16;
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+    }
+
+    button:hover {
+      background: #a98225;
+      box-shadow: 0 4px 12px rgba(184, 134, 11, 0.22);
+    }
+
+    .download-btn {
+      background: #8f6a16;
+      color: #fff;
+    }
+
+    .download-btn:hover {
+      background: #a98225;
+    }
+
+    .game-fullscreen-btn {
+      background: #8f6a16;
+    }
+
+    .game-fullscreen-btn:hover {
+      background: #a98225;
+    }
+
+    #contact form button[type="submit"] {
+      background: #8f6a16;
+      color: #fff;
+    }
+
+    #contact form button[type="submit"]:hover {
+      background: #a98225;
+    }
+
+    footer {
+      background: #222;
+      padding: 15px;
+      text-align: center;
+      font-size: 14px;
+      margin-top: 40px;
+    }
+
+    .footer-info {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+
+    .footer-info div {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .footer-info i {
+      color: #aaa;
+    }
+
+    .socials {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      font-size: 22px;
+    }
+
+    .socials a {
+      color: #aaa;
+      transition: color 0.3s;
+    }
+
+    .socials a:hover {
+      color: #d6ad45;
+    }
+
+    nav ul li a:hover {
+      color: #d6ad45;
+    }
+
+    .download-btn {
+      transition: background 0.2s, box-shadow 0.2s;
+    }
+
+    /* ألعابي */
+    .games-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .game-card {
+      background: #fff;
+      color: #000;
+      border-radius: 12px;
+      padding: 15px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+    }
+
+    .game-card h3 {
+      margin-bottom: 10px;
+    }
+
+    /* إطار اللعبة وأزرار التحكم */
+    .game-screen {
+      position: relative;
+      width: 100%;
+      height: 200px;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #111;
+    }
+
+    .game-screen iframe {
+      display: block;
+      position: relative;
+      width: 100%;
+      height: 100%;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      box-sizing: border-box;
+    }
+
+    .game-screen:fullscreen {
+      width: 100vw;
+      height: 100vh;
+      max-width: none;
+      border-radius: 0;
+      background: #000;
+    }
+
+    .game-screen:fullscreen iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      border-radius: 0;
+    }
+
+    .game-screen:-webkit-full-screen {
+      width: 100vw;
+      height: 100vh;
+      border-radius: 0;
+      background: #000;
+    }
+
+    .game-screen:-webkit-full-screen iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      border-radius: 0;
+    }
+
+    .game-control {
+      position: absolute;
+      z-index: 20;
+      border: 0;
+      padding: 9px 13px;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+      line-height: 1.3;
+      cursor: pointer;
+      opacity: 0.95;
+    }
+
+    .game-fullscreen-btn {
+      right: 10px;
+      bottom: 10px;
+      background: #9a7200;
+    }
+
+    .game-exit-btn {
+      display: none;
+      top: 10px;
+      right: 10px;
+      background: #b3261e;
+    }
+
+    .game-screen:fullscreen .game-fullscreen-btn,
+    .game-screen:-webkit-full-screen .game-fullscreen-btn {
+      display: none;
+    }
+
+    .game-screen:fullscreen .game-exit-btn,
+    .game-screen:-webkit-full-screen .game-exit-btn {
+      display: block;
+    }
+
+    /* قسم التحميل */
+    .download-list {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-top: 20px;
+      align-items: center;
+    }
+
+    .download-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #f5f5f5;
+      padding: 12px 18px;
+      border-radius: 10px;
+      width: 100%;
+      max-width: 520px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .download-item span{font-weight:700}
+
+    .download-btn {
+      background: #8f6a16;
+      color: #fff;
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 6px;
+      transition: background 0.3s, box-shadow 0.3s;
+    }
+
+    .download-btn:hover {
+      background: #a98225;
+      box-shadow: 0 4px 12px rgba(184, 134, 11, 0.25);
+    }
+
+    /* ألوان الموقع الجديدة فقط - مع الحفاظ على نفس التصميم */
+    body {
+      background: linear-gradient(135deg, #171717 0%, #211d17 55%, #171717 100%);
+      color: #fff;
+    }
+
+    #portfolio, #games, #downloads {
+      background: #555;
+      color: #fff;
+    }
+
+    .game-card {
+      background: #666;
+      color: #fff;
+    }
+
+    .download-item {
+      background: #666;
+      color: #fff;
+    }
+
+    .download-item span {
+      color: #fff;
+    }
+
+    input, textarea {
+      background: #555;
+      color: #fff;
+    }
+
+    input::placeholder, textarea::placeholder {
+      color: #ddd;
+    }
+  
+    /* إضافات بسيطة لتحسين تجربة الزائر */
+    #site-clock {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 7px 14px;
+      border: 1px solid rgba(212, 175, 55, 0.45);
+      border-radius: 20px;
+      color: #e0b84f;
+      background: rgba(25, 25, 25, 0.72);
+      font-size: 14px;
+      letter-spacing: 0.3px;
+    }
+
+    #welcome-message {
+      position: fixed;
+      top: 86px;
+      left: 50%;
+      transform: translate(-50%, -12px);
+      z-index: 3000;
+      width: max-content;
+      max-width: calc(100% - 36px);
+      box-sizing: border-box;
+      padding: 11px 18px;
+      border: 1px solid rgba(212, 175, 55, 0.55);
+      border-radius: 12px;
+      background: #222;
+      color: #f1d477;
+      text-align: center;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+      opacity: 0;
+      pointer-events: none;
+      animation: welcomeIn 0.65s ease forwards, welcomeOut 0.6s ease 4.2s forwards;
+    }
+
+    @keyframes welcomeIn {
+      to { opacity: 1; transform: translate(-50%, 0); }
+    }
+
+    @keyframes welcomeOut {
+      to { opacity: 0; transform: translate(-50%, -10px); }
+    }
+
+    .reveal-on-scroll {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+
+    .reveal-on-scroll.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    #back-to-top {
+      position: fixed;
+      bottom: 22px;
+      left: 20px;
+      z-index: 2500;
+      width: 46px;
+      height: 46px;
+      border: 1px solid rgba(212, 175, 55, 0.65);
+      border-radius: 50%;
+      background: #8f6a16;
+      color: #fff;
+      font-size: 23px;
+      cursor: pointer;
+      box-shadow: 0 5px 16px rgba(0,0,0,0.35);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(8px);
+      transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s;
+    }
+
+    #back-to-top.visible {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    #back-to-top:hover {
+      background: #a98225;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal-on-scroll, #back-to-top, #welcome-message {
+        animation: none !important;
+        transition: none !important;
+      }
+      .reveal-on-scroll { opacity: 1; transform: none; }
+      #welcome-message { display: none; }
+    }
+
+    /* توحيد شبكة الألعاب مع شبكة الأعمال: تتوزع البطاقات تلقائياً وبأحجام متساوية */
+    #games .games-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+      align-items: stretch;
+    }
+
+    /* إطار ذهبي لامع وتأثير تفاعلي مماثل لصور قسم أعمالي */
+    #games .game-card {
+      position: relative;
+      box-sizing: border-box;
+      min-width: 0;
+      padding: 12px;
+      border: 2px solid #ffd700;
+      border-radius: 14px;
+      background: linear-gradient(145deg, #68604b, #45413a);
+      color: #fff;
+      box-shadow:
+        0 0 8px rgba(255, 215, 0, 0.55),
+        0 0 18px rgba(212, 175, 55, 0.35),
+        inset 0 0 10px rgba(255, 215, 0, 0.08);
+      transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;
+    }
+
+    #games .game-card:hover {
+      transform: translateY(-7px) scale(1.015);
+      border-color: #fff0a3;
+      box-shadow:
+        0 0 12px rgba(255, 215, 0, 0.9),
+        0 0 28px rgba(255, 193, 7, 0.65),
+        0 12px 28px rgba(0, 0, 0, 0.3);
+    }
+
+    #games .game-card h3 {
+      margin: 2px 0 12px;
+      color: #ffe28a;
+      text-shadow: 0 0 8px rgba(255, 215, 0, 0.35);
+    }
+
+    #games .game-screen {
+      width: 100%;
+      height: 230px;
+      box-sizing: border-box;
+      border: 2px solid #d4af37;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 0 12px rgba(212, 175, 55, 0.35);
+      transition: box-shadow 0.28s ease, border-color 0.28s ease;
+    }
+
+    #games .game-card:hover .game-screen {
+      border-color: #ffe58a;
+      box-shadow: 0 0 18px rgba(255, 215, 0, 0.65);
+    }
+
+    #games .game-screen iframe {
+      display: block;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    @media (max-width: 768px) {
+      #games .games-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+      #games .game-card {
+        padding: 8px;
+        border-radius: 11px;
+      }
+      #games .game-screen {
+        height: 165px;
+      }
+    }
+
+    @media (max-width: 380px) {
+      #games .game-screen {
+        height: 135px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      #games .game-card,
+      #games .game-screen {
+        transition: none;
+      }
+    }
+
+/* عنوان الموقع مع اللمعان الذهبي */
+header {
+  position: sticky;
+}
+
+header .logo {
+  position: absolute;
+  right: 25px;
+  left: auto;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  white-space: nowrap;
+  text-align: right;
+  font-size: clamp(36px, 3.5vw, 48px);
+  font-weight: 800;
+  color: #e7c45b;
+  background: linear-gradient(
+    110deg,
+    #8f6a16 0%,
+    #d4af37 22%,
+    #fff2a6 42%,
+    #d4af37 58%,
+    #a87916 78%,
+    #f7df83 100%
+  );
+  background-size: 220% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: logoGoldShimmer 3.2s linear infinite;
+  filter: drop-shadow(0 0 5px rgba(212, 175, 55, 0.35));
+  pointer-events: none;
+}
+
+@keyframes logoGoldShimmer {
+  0% {
+    background-position: 200% center;
+  }
+  100% {
+    background-position: -20% center;
+  }
+}
+
+/* الكمبيوتر */
+@media (min-width: 769px) {
+  header .logo {
+    right: 25px;
+    left: auto;
+    font-size: clamp(36px, 3.5vw, 48px);
+    max-width: 48%;
+  }
+}
+
+/* الجوال - إبقاء التنسيق كما هو */
+@media (max-width: 768px) {
+  header .logo {
+    left: calc(50% + 7px);
+    right: auto;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-size: clamp(23px, 5.8vw, 30px);
+    max-width: calc(100% - 96px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  header .logo {
+    animation: none;
+  }
+}
+  </style>
+  <script src="https://kit.fontawesome.com/0ffd6ece31.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+  <header>
+    <div class="menu-toggle" role="button" tabindex="0" aria-label="فتح القائمة" aria-expanded="false" onclick="toggleMenu()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleMenu();}">☰</div>
+    <div class="logo">موقع غسان الشخصي</div>
+    <nav>
+      <ul id="nav-links">
+        <li class="menu-close"><button type="button" onclick="closeMenu()" aria-label="إغلاق القائمة">✕</button></li>
+        <li><a href="#about">من أنا</a></li>
+        <li><a href="#portfolio">أعمالي</a></li>
+        <li><a href="#games">ألعابي</a></li>
+        <li><a href="#downloads">الروابط التحميل وا المواقع</a></li>
+        <li><a href="#contact">تواصل</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div id="welcome-message" role="status">أهلاً وسهلاً بك في موقع غسان الشخصي ✨</div>
+  <button id="back-to-top" type="button" aria-label="العودة إلى أعلى الصفحة" title="العودة للأعلى">↑</button>
+
+  <!-- قسم من أنا -->
+  <section id="about">
+    <img src="ghassan/profile.jpg" alt="صورتي الشخصية">
+    <h2>من أنا</h2>
+    <p>أنا غسان فادي نوفل.
+    هذا موقعي الشخصي لعرض أعمالي وألعابي والتواصل معي.</p>
+    <div id="site-clock" aria-live="off">جاري تحميل الوقت والتاريخ...</div>
+  </section>
+
+  <!-- قسم الأعمال -->
+  <section id="portfolio">
+    <h2>الأعمال</h2>
+    <p> 👇</p>
+    <div class="grid">
+      <img src="ghassan/w1.jpg" alt="برمجه">
+      <img src="ghassan/w2.jpg" alt="امن سبراني">
+      <img src="ghassan/w3.jpg" alt="عمل مواقع">
+    </div>
+  </section>
+
+  <!-- قسم ألعابي -->
+  <section id="games">
+    <h2>اللاعب</h2>
+    <p>استمتع بتجربة اللاعب 👇</p>
+    <div class="games-grid">
+      <div class="game-card">
+        <h3>لعبة 1</h3>
+        <div class="game-screen">
+          <iframe
+            src="ghassan/games/game1/index.html"
+            title="لعبة 1"
+            allow="fullscreen; autoplay"
+            allowfullscreen>
+          </iframe>
+          <button type="button" class="game-control game-fullscreen-btn" onclick="openGame(this)">⛶ تكبير الشاشة</button>
+          <button type="button" class="game-control game-exit-btn" onclick="closeGame()">✕ خروج</button>
+        </div>
+      </div>
+
+      <div class="game-card">
+        <h3>لعبة 2</h3>
+        <div class="game-screen">
+          <iframe
+            src="ghassan/games/game2/index.html"
+            title="لعبة 2"
+            allow="fullscreen; autoplay"
+            allowfullscreen>
+          </iframe>
+          <button type="button" class="game-control game-fullscreen-btn" onclick="openGame(this)">⛶ تكبير الشاشة</button>
+          <button type="button" class="game-control game-exit-btn" onclick="closeGame()">✕ خروج</button>
+        </div>
+      </div>
+
+      <div class="game-card">
+        <h3>لعبة 3</h3>
+        <div class="game-screen">
+          <iframe
+            src="ghassan/games/game3/index.html"
+            title="لعبة 3"
+            allow="fullscreen; autoplay"
+            allowfullscreen>
+          </iframe>
+          <button type="button" class="game-control game-fullscreen-btn" onclick="openGame(this)">⛶ تكبير الشاشة</button>
+          <button type="button" class="game-control game-exit-btn" onclick="closeGame()">✕ خروج</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- قسم روابط التحميل -->
+  <section id="downloads">
+    <h2>الروابط التحميل وا المواقع</h2>
+    <p>اضغط على زر التحميل بجانب التطبيق 👇</p>
+    <div class="download-list">
+      <div class="download-item">
+        <span>رابط التحميل 1</span>
+        <a href="https://example.com/app1.zip" target="_blank" class="download-btn">تحميل</a>
+      </div>
+      <div class="download-item">
+        <span>رابط التحميل 2</span>
+        <a href="https://example.com/app2.zip" target="_blank" class="download-btn">تحميل</a>
+      </div>
+      <div class="download-item">
+        <span>رابط التحميل 3</span>
+        <a href="https://example.com/app3.zip" target="_blank" class="download-btn">تحميل</a>
+      </div>
+      <div class="download-item">
+        <span>موقع 1</span>
+        <a href="https://example.com/app4.zip" target="_blank" class="download-btn">فتح الموقع</a>
+      </div>
+      <div class="download-item">
+        <span>موقع 2</span>
+        <a href="https://example.com/app5.zip" target="_blank" class="download-btn">فتح الموقع</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- قسم التواصل -->
+  <section id="contact">
+    <h2>تواصل معي</h2>
+    <form id="contact-form" onsubmit="confirmWhatsApp(event)">
+      <input type="text" name="name" id="name" placeholder="الاسم" required>
+      <input type="email" name="email" id="email" placeholder="البريد الإلكتروني" required>
+      <textarea name="message" id="message" rows="5" placeholder="رسالتك" required></textarea>
+      <button type="submit">إرسال</button>
+    </form>
+  </section>
+
+  <!-- نافذة التأكيد -->
+  <div id="whatsapp-confirm" style="
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.6);
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    animation: fadeIn 0.4s ease;
+  ">
+    <div id="confirm-box" style="
+      background: #222;
+      color: #fff;
+      padding: 25px;
+      border-radius: 12px;
+      text-align: center;
+      width: 300px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+      transform: scale(0.8);
+      opacity: 0;
+      animation: popupIn 0.4s forwards;
+    ">
+      <h3>هل لديك واتساب؟</h3>
+      <p>يمكننا التواصل معك عبر واتساب أو عبر البريد الإلكتروني.</p>
+      <div style="margin-top: 20px; display: flex; justify-content: center; gap: 15px;">
+        <button id="yesBtn" style="background: #25D366; border: none; color: white; padding: 10px 20px; border-radius: 8px; cursor: pointer;">تواصل عبر الواتساب</button>
+        <button id="noBtn" style="background: #555; border: none; color: white; padding: 10px 20px; border-radius: 8px; cursor: pointer;">تواصل عبر البريد الإلكتروني</button>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    @keyframes fadeIn {
+      from {opacity: 0;} to {opacity: 1;}
+    }
+    @keyframes popupIn {
+      to {transform: scale(1); opacity: 1;}
+    }
+  </style>
+
+  <script>
+    function confirmWhatsApp(event) {
+      event.preventDefault();
+      document.getElementById("whatsapp-confirm").style.display = "flex";
+
+      const yesBtn = document.getElementById("yesBtn");
+      const noBtn = document.getElementById("noBtn");
+
+      yesBtn.onclick = null;
+      noBtn.onclick = null;
+
+      yesBtn.onclick = () => {
+        document.getElementById("whatsapp-confirm").style.display = "none";
+        sendToWhatsApp();
+      };
+
+      noBtn.onclick = () => {
+        document.getElementById("whatsapp-confirm").style.display = "none";
+        sendToEmail();
+      };
+    }
+
+    function sendToWhatsApp() {
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const message = document.getElementById('message').value.trim();
+
+      const phoneNumber = "967781324733";
+      const text = ` (https://ghassan-fadi.vercel.app):مرحبًا غسان! لديك رساله من موقع\nالاسم: ${name}\nالبريد: ${email}\nالرسالة:\n${message}`;
+      const waUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(text)}`;
+
+      alert("✅ سيتم الآن فتح واتساب لإرسال رسالتك إلى غسان.");
+      window.open(waUrl, "_blank");
+      document.getElementById("contact-form").reset();
+    }
+
+    function sendToEmail() {
+      const form = document.getElementById("contact-form");
+      const formData = new FormData(form);
+
+      fetch("https://formspree.io/f/xnnbryqz", {
+        method: "POST",
+        body: formData,
+        headers: { "Accept": "application/json" }
+      }).then(response => {
+        if (response.ok) {
+          alert("✅ تم إرسال الرسالة بنجاح عبر البريد الإلكتروني.");
+          form.reset();
+        } else {
+          alert("❌ حدث خطأ أثناء الإرسال، حاول مرة أخرى.");
+        }
+      }).catch(() => {
+        alert("⚠️ تحقق من اتصال الإنترنت.");
+      });
+    }
+
+    /* تكبير اللعبة المحددة والخروج منها */
+    async function openGame(button) {
+      const gameScreen = button.closest(".game-screen");
+      if (!gameScreen) return;
+
+      try {
+        if (gameScreen.requestFullscreen) {
+          await gameScreen.requestFullscreen();
+        } else if (gameScreen.webkitRequestFullscreen) {
+          gameScreen.webkitRequestFullscreen();
+        } else {
+          alert("المتصفح لا يدعم وضع ملء الشاشة.");
+        }
+      } catch (error) {
+        alert("تعذر تكبير اللعبة. جرّب فتح الموقع من متصفح يدعم ملء الشاشة.");
+      }
+    }
+
+    async function closeGame() {
+      if (document.fullscreenElement && document.exitFullscreen) {
+        await document.exitFullscreen();
+      } else if (document.webkitFullscreenElement && document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+      }
+    }
+  </script>
+
+  <!-- الفوتر -->
+  <footer>
+    <div class="footer-info">
+      <div><i class="fas fa-map-marker-alt"></i> اليمن</div>
+      <div><i class="fas fa-envelope"></i> ghassan515253@gmail.com</div>
+      <div><i class="fas fa-phone"></i> +967-781324733</div>
+    </div>
+
+    <!-- روابط التواصل الاجتماعي -->
+    <div class="socials">
+      <a href="https://www.facebook.com/profile.php?id=61563149194292&mibextid=ZbWKwL" target="_blank"><i class="fab fa-facebook"></i></a>
+      <a href="https://www.instagram.com/master_x_600?igsh=djViNWhpZDZ5ZXI5" target="_blank"><i class="fab fa-instagram"></i></a>
+      <a href="https://discord.gg/ghassan_5090" target="_blank"><i class="fab fa-discord"></i></a>
+      <a href="https://t.me/Ghassan_Fadi" target="_blank"><i class="fab fa-telegram"></i></a>
+      <a href="https://wa.me/967781324733" target="_blank"><i class="fab fa-whatsapp"></i></a>
+    </div>
+
+    <p>© <span id="year"></span> جميع الحقوق محفوظه</p>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+    function toggleMenu() {
+      const navLinks = document.getElementById("nav-links");
+      const isOpen = navLinks.classList.toggle("show");
+      const menuButton = document.querySelector(".menu-toggle");
+      if (menuButton) menuButton.setAttribute("aria-expanded", String(isOpen));
+    }
+
+    function closeMenu() {
+      const navLinks = document.getElementById("nav-links");
+      navLinks.classList.remove("show");
+      const menuButton = document.querySelector(".menu-toggle");
+      if (menuButton) menuButton.setAttribute("aria-expanded", "false");
+    }
+
+    // إغلاق قائمة الجوال بعد اختيار أي قسم، والتنقل بسلاسة على الجوال والكمبيوتر.
+    const navLinks = document.querySelectorAll('#nav-links a[href^="#"]');
+    navLinks.forEach(link => {
+      link.addEventListener("click", function (event) {
+        const target = document.querySelector(this.getAttribute("href"));
+        if (!target) return;
+        event.preventDefault();
+        closeMenu();
+        navLinks.forEach(item => item.classList.remove("active"));
+        this.classList.add("active");
+        const header = document.querySelector("header");
+        const headerHeight = header ? header.offsetHeight : 0;
+        const targetTop = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - 10;
+        window.scrollTo({ top: Math.max(0, targetTop), behavior: "smooth" });
+        if (history.replaceState) history.replaceState(null, "", this.getAttribute("href"));
+      });
+    });
+
+    // إبراز رابط القسم الظاهر أثناء التمرير.
+    if ("IntersectionObserver" in window) {
+      const sectionObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            navLinks.forEach(link => {
+              link.classList.toggle("active", link.getAttribute("href") === "#" + entry.target.id);
+            });
+          }
+        });
+      }, { rootMargin: "-25% 0px -60% 0px", threshold: 0 });
+      document.querySelectorAll("section[id]").forEach(section => sectionObserver.observe(section));
+    }
+
+    // تحديث الساعة والتاريخ حسب توقيت الجهاز.
+    function updateSiteClock() {
+      const clock = document.getElementById("site-clock");
+      if (!clock) return;
+      const now = new Date();
+      const time = now.toLocaleTimeString("ar", {
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit"
+      });
+      const date = now.toLocaleDateString("ar", {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+      });
+      clock.textContent = date + " • " + time;
+    }
+    updateSiteClock();
+    setInterval(updateSiteClock, 1000);
+
+    // تكبير مربع الرسالة تلقائياً مع زيادة النص، مع حد أقصى ثابت يمنع تمدده بلا نهاية.
+    const messageField = document.getElementById("message");
+    if (messageField) {
+      const resizeMessageField = () => {
+        messageField.style.height = "130px";
+        const nextHeight = Math.min(messageField.scrollHeight, 380);
+        messageField.style.height = nextHeight + "px";
+        messageField.style.overflowY = messageField.scrollHeight > 380 ? "auto" : "hidden";
+      };
+      messageField.addEventListener("input", resizeMessageField);
+      resizeMessageField();
+    }
+
+    // إظهار زر العودة للأعلى بعد النزول في الصفحة.
+    const backToTopButton = document.getElementById("back-to-top");
+    window.addEventListener("scroll", () => {
+      backToTopButton.classList.toggle("visible", window.scrollY > 300);
+    }, { passive: true });
+
+    backToTopButton.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    // إظهار الأقسام تدريجياً عند وصولها إلى الشاشة.
+    const sectionsToReveal = document.querySelectorAll("body > section, body > footer");
+    if ("IntersectionObserver" in window) {
+      sectionsToReveal.forEach(section => section.classList.add("reveal-on-scroll"));
+      const revealObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12 });
+      sectionsToReveal.forEach(section => revealObserver.observe(section));
+    }
+  </script>
+
+
+</body>
+</html>
